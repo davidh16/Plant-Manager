@@ -1,63 +1,60 @@
-import psycopg2 as pg2
 from datetime import datetime
-from utils.data_manipulation import maintenence_list_to_json
 from flask import make_response
-from model.task_model import Task
+from database import db
+from qrcode_maker import qr_code_machine
+from utils.data_manipulation import retrieved_machines_to_json, retrieved_employees_to_json
+from model.tasks_model import Task
+from model.machines_model import Machine
+from model.employees_model import Employee
 
-file = open('password.txt')
-db_password = file.read()
+def get_maintenance_list_service():
+    machines_for_maintenance = Machine.query.filter_by(maintenance_needed=True).all()
+    return retrieved_machines_to_json(machines_for_maintenance)
 
-def parts_for_maintenance_service():
-    conn=pg2.connect(database='PlantManager',user='postgres',password=db_password)
-    cur = conn.cursor()
-    cur.execute("SELECT machine_id,machine,needs_frequent_maintenance,frequency_of_maintenance,last_maintenance,last_maintenance_by,last_maintetance + frequency_of_maintenance* INTERVAL'1 day' as date FROM machines")
-    data = cur.fetchall()
+def get_workers_list_service():
+    workers = Employee.query.filter_by(access_level='worker').all()
+    return retrieved_employees_to_json(workers)
 
-    maintenence_list = []
-    for item in data:
-        if item[2] == True and item[6] < datetime.today():
-            maintenence_list.append(item)
-    return maintenence_list_to_json(maintenence_list)
-
-def task_assignment_service(worker_id,data):
-    conn = pg2.connect(database='PlantManager', user='postgres', password=db_password)
-    cur = conn.cursor()
-    cur.execute("SELECT username,name,surname,access_level  FROM employees WHERE id = %s",(worker_id,))
-    worker_info = cur.fetchone()
-
-    new_task = Task(machine = data['machine'],
+def task_assignment_service(user_id,data):
+    assigned_to = Employee.query.filter_by(id=user_id).first()
+    assigned_machine = Machine.query.filter_by(machine_id=data['machine_id']).first()
+    new_task = Task(machine=assigned_machine.machine,
                     machine_id = data['machine_id'],
-                    status = 'In progress',
-                    date_of_assignment =  None,
-                    date_of_completion = None,
+                    in_progress = True,
+                    date_of_assignment =  datetime.utcnow(),
                     description = data['description'],
-                    description_of_work = None)
+                    user_id = user_id,
+                    assigned_to=assigned_to.username)
+    db.session.add(new_task)
+    db.session.commit()
+    return make_response({'message':f'Task successfully assigned to {assigned_to.name} {assigned_to.surname}'})
 
-    cur.execute(f"INSERT INTO workers_tasks.{worker_info[0]}(machine,machine_id,date_of_assignment,status,description) VALUES(%s,%s,NOW(),'In progress',%s)",(new_task['machine'],new_task['machine_id'],new_task['description']))
-    conn.commit()
-    return make_response({'message':f'Task successfully assigned to {worker_info[1]} {worker_info[2]}'})
-
-def tasks_list_service():
-    conn = pg2.connect(database='PlantManager', user='postgres', password=db_password)
-    cur = conn.cursor()
-    cur.execute("SELECT username FROM employees WHERE access_level = 'worker'")
-    workers = cur.fetchall()
-
+def get_tasks_list_service():
+    workers = Employee.query.filter_by(access_level='worker').all()
     tasks_json={}
-
     for worker in workers:
-        cur.execute("SELECT name, surname FROM employees WHERE username = %s",(worker,))
-        data=cur.fetchone()
-        key = data[0] + " " + data[1]
-
-        cur.execute(f"SELECT * FROM workers_tasks.{worker[0]} WHERE status = 'In progress'")
-        tasks = cur.fetchall()
+        key = worker.name + " " + worker.surname
+        tasks = Task.query.filter_by(user_id=worker.id, in_progress=True)
         temp = {}
         for task in tasks:
-            temp[task[0]]={'machine' : task[1],
-                           'date_of_assignment' : task[2],
-                            'status' : task[3],
-                           'description':task[5]}
+            temp[task.task_id]={'machine' : task.machine,
+                                'machine_id': task.machine_id,
+                                'in_progress':task.in_progress,
+                                'date_of_assignment':task.date_of_assignment,
+                                'date_of_completion':task.date_of_completion,
+                                'description':task.description,
+                                'description_of_work':task.description_of_work,
+                                'user_id':task.user_id,
+                                'assigned_to':task.assigned_to}
         tasks_json[key] = temp
-
+    if tasks_json == {}:
+        return make_response({'message':'All tasks are done'})
     return tasks_json
+
+def new_machine_service(data):
+    new_machine = Machine(machine = data['machine'],
+                          maintenance_freq= data['maintenance_freq'])
+    db.session.add(new_machine)
+    db.session.commit()
+    qr_code_machine(new_machine.machine_id)
+    return make_response({'message':'New machine successfully added'})

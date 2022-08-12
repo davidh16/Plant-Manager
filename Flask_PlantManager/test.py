@@ -1,8 +1,8 @@
-import psycopg2 as pg2
+import qrcode
 
-conn = pg2.connect(database='PlantManager', user='postgres', password='secretpassword123')
-cur = conn.cursor()
-cur.execute("SELECT username FROM employees WHERE id = 1")
-username = cur.fetchone()[0]
+img = qrcode.make("type,part,part_id,1")
+img.save("dc motor.png")
 
-print(username)
+
+
+

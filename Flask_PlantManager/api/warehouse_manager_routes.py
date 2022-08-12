@@ -1,37 +1,39 @@
 from flask_restful import request
-from service.warehouse_manager_service import *
-from flask import Blueprint
-from api.token import token_requirement
+from service.warehouse_manager_service import new_part_service, get_part_info_service, get_parts_list_service, update_part_service
+from flask import Blueprint, make_response
+from flask_login import login_required, current_user
 
 warehouse_manager_blueprint = Blueprint('warehouse_manager_blueprint', __name__)
 
+# These routes are for the employee whose access level is 'warehouse_manager'
+# His job is to track quantity of certain parts in the warehouse, he also can update every part as well as adding new ones
 
 @warehouse_manager_blueprint.route('/warehouse_manager/item/new', methods=['POST'])
-@token_requirement
-def new_item(access_level):
-    if access_level != 'warehouse_manager':
-        return make_response({"You don't have a permission to perform that action"})
+@login_required
+def new_item():
+    if current_user.access_level != 'warehouse_manager':
+        return make_response('401')
     data = request.get_json()
-    return new_item_service(data)
+    return new_part_service(data)
 
 @warehouse_manager_blueprint.route('/warehouse_manager/items', methods=['GET'])
-@token_requirement
-def items_list(access_level):
-    if access_level != 'warehouse_manager':
-        return make_response({"You don't have a permission to perform that action"})
-    return items_list_service()
+@login_required
+def items_list():
+    if current_user.access_level != 'warehouse_manager':
+        return make_response('401')
+    return get_parts_list_service()
 
-@warehouse_manager_blueprint.route('/warehouse_manager/update/info/<item_id>', methods=['GET'])
-@token_requirement
-def item_info(access_level,item_id):
-    if access_level != 'warehouse_manager':
-        return make_response({"You don't have a permission to perform that action"})
-    return item_info_service(item_id)
+@warehouse_manager_blueprint.route('/warehouse_manager/update/info/<part_id>', methods=['GET'])
+@login_required
+def item_info(part_id):
+    if current_user.access_level != 'warehouse_manager':
+        return make_response('401')
+    return get_part_info_service(part_id)
 
-@warehouse_manager_blueprint.route('/warehouse_manager/<user_id>/update/<item_id>', methods=['PUT'])
-@token_requirement
-def update(access_level,item_id, user_id):
-    if access_level != 'warehouse_manager':
-        return make_response({"You don't have a permission to perform that action"})
+@warehouse_manager_blueprint.route('/warehouse_manager/update/<part_id>', methods=['PUT'])
+@login_required
+def update(part_id):
+    if current_user.access_level != 'warehouse_manager':
+        return make_response('401')
     data = request.get_json()
-    return update_item_service(item_id, data, user_id)
+    return update_part_service(part_id, data)

@@ -1,14 +1,17 @@
-import psycopg2 as pg2
+from model.parts_model import Part
 
-file = open('password.txt')
-db_password = file.read()
+# This function checks if certain part already exists in the warehouse.
+# It is necessary because to check if part already exists, we need to check every column of the database
 
 def item_existence(data):
-    conn = pg2.connect(database='PlantManager', user='postgres', password=db_password)
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM skladište WHERE naziv=%s AND proizvođač=%s AND dobavljač=%s AND tip=%s AND model=%s AND kataloški_broj=%s',
-                (data['name'],data['brand'],data['supplier'],data['type'],data['model'],data['catalogue_number']))
-    existance = cur.fetchone()
+    existance = Part.query.filter_by(part=data['part'],
+                    quantity=data['quantity'],
+                    critical_quantity=data['critical_quantity'],
+                    supplier=data['supplier'],
+                    brand=data['brand'],
+                    catalogue_number=data['catalogue_number'],
+                    type=data['type'],
+                    model=data['model']).first()
     if existance:
         return True
     return False
