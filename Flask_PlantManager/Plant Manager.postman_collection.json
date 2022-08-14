@@ -1,0 +1,659 @@
+{
+	"info": {
+		"_postman_id": "89791d97-204d-4a72-bae0-84c6dd3e0538",
+		"name": "Plant Manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22393294"
+	},
+	"item": [
+		{
+			"name": "User Login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "mpk41666",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "davidh",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"korisnicko_ime\":\"davidh\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Employee Register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"ime\": \"Vedran\",\n\"prezime\":\"Budimir\",\n\"funkcija\":\"bravar\",\n\"razina_pristupa\":\"radnik\",\n\"primanja\": 7000,\n\"datum_rodenja\":\"10.10.1998..\",\n\"datum_zaposlenja\":\"27.07.2022.\",\n\"broj_telefona\":\"0967483953\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/admin/register/employee",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"register",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Employee Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"ime\": \"Marko\",\n\"prezime\":\"Perić\",\n\"funkcija\":\"glavni bravar\",\n\"razina_pristupa\":\"šef smjene\",\n\"primanja\": 10000,\n\"datum_rodenja\":\"16.02.1988.\",\n\"datum_zaposlenja\":\"27.07.2022.\",\n\"broj_telefona\":\"444444444\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/admin/employees/update/3/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"employees",
+						"update",
+						"3",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Employee Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/admin/employees/delete/70/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"employees",
+						"delete",
+						"70",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Employee Details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/admin/employees/details/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"employees",
+						"details",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Employees List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/admin/employees?X_ACCES_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3NfbGV2ZWwiOiJhZG1pbiIsInVzZXJfaWQiOjEsImV4cCI6MTY1OTk5NDUzNH0.h86Zka89biZTMJbZtx23L5uCr9KG32hT6QCVxMaJJ6A",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"employees"
+					],
+					"query": [
+						{
+							"key": "X_ACCES_TOKEN",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3NfbGV2ZWwiOiJhZG1pbiIsInVzZXJfaWQiOjEsImV4cCI6MTY1OTk5NDUzNH0.h86Zka89biZTMJbZtx23L5uCr9KG32hT6QCVxMaJJ6A"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Warehouse Manager New Item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"radilica\",\n    \"brand\" : \"bosch\",\n    \"supplier\" : \"tokić\",\n    \"type\" : \"LR9\",\n    \"model\" : \"XDFE12333\",\n    \"quantity\" : 20,\n    \"critical_quantity\" : 14,\n    \"catalogue_number\" : \"234121112\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/skladistar/item/new",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"skladistar",
+						"item",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Warehouse Manager Items List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/skladistar/items",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"skladistar",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Warehouse Manager Item Info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/skladistar/update/info/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"skladistar",
+						"update",
+						"info",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Warehouse Manager Critical Parts List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/skladistar/update/info/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"skladistar",
+						"update",
+						"info",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Warehouse Manager Item Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"radilica\",\n    \"brand\" : \"bosch\",\n    \"supplier\" : \"tokić\",\n    \"type\" : \"LR9\",\n    \"model\" : \"XDFE12333\",\n    \"quantity\" : 323,\n    \"critical_quantity\" : 14,\n    \"catalogue_number\" : \"234121112\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000//skladistar/update/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"",
+						"skladistar",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Worker - Warehouse",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/worker/warehouse",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"worker",
+						"warehouse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Worker - To Do List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000//worker/stankok1/todolist",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"",
+						"worker",
+						"stankok1",
+						"todolist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Worker - Task Done",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"scanned_machine\" : \"sandučasti dodavač\",\n    \"work_description\" : \"promijenio ulje, napravio inspekciju\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000//worker/stankok1/todolist/1/done",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"",
+						"worker",
+						"stankok1",
+						"todolist",
+						"1",
+						"done"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Worker - Scanner",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"scanned_machine\" : \"sandučasti dodavač\",\n    \"work_description\" : \"promijenio ulje, napravio inspekciju\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000//worker/stankok1/todolist/1/done",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"",
+						"worker",
+						"stankok1",
+						"todolist",
+						"1",
+						"done"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shift Manager Maintenance List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/shiftmanager/78/maintenance",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"shiftmanager",
+						"78",
+						"maintenance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shift Manager Task Assignment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000//shiftmanager/maintenance/task/<worker_id>/<task_id>",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"",
+						"shiftmanager",
+						"maintenance",
+						"task",
+						"<worker_id>",
+						"<task_id>"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shift Manager Tasks List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/shiftmanager/78/maintenance",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"shiftmanager",
+						"78",
+						"maintenance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shift Manager Workers List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/shiftmanager/78/maintenance",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"shiftmanager",
+						"78",
+						"maintenance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shift Manager New Machine",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"machine\":\"ibea\",\n    \"maintenance_freq\":1\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/shiftmanager/78/maintenance",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"shiftmanager",
+						"78",
+						"maintenance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Password Change",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"current_password\": \"mpk4166\",\n    \"new_password\":\"mpk41777\",\n    \"new_password2\":\"mpk41777\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/password_change",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"password_change"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
