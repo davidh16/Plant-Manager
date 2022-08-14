@@ -15,21 +15,21 @@ Everything is connected to a database which is runned by postgresql.
 
 There are few employees that have been already created.
 
-username : admina
-password : admin
-access_level : admin
+username : admina,
+password : admin,
+access_level : admin,
 
-username : eliotg
-password : password
-access_level : warehouse_manager
+username : eliotg,
+password : password,
+access_level : warehouse_manager,
 
-username : johns
-password : password
-access_level : shif_manager
+username : johns,
+password : password,
+access_level : shif_manager,
 
-username : mackp
-password : password
-access_level : worker
+username : mackp,
+password : password,
+access_level : worker,
 
 Testing is done by Postman, there is Postman collection which can be imported.
 
